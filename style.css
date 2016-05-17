@@ -1,0 +1,13 @@
+body {
+	color: black;
+	background: white;
+	font-family: arial;
+	font-size: 12;
+	background-image: url(img/bg.png);
+}
+
+pre, code {
+	color: black;
+	font-family: courier new;
+}
+

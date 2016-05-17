@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Реализации сортировок</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h3>На этой странице приведены реализации некоторых алгоритмов сортировки на языке C++.</h3>
+	<h4>Быстрая сортировка (Quicksort)</h4>
+	<pre>
+int partition(std::vector<int> &a, int left, int right)
+{
+    int x = a[right];
+    int i = left - 1;
+    bool isFlat = true;
+
+    for (int j = left; j < right; j++)
+        if (a[j] >= x) {
+            if (a[j] != x)
+                isFlat = false;
+
+            i++;
+            std::swap(a[j], a[i]);
+        }
+
+    std::swap(a[i + 1], a[right]);
+
+    if (isFlat)
+        return (left + right) / 2;
+
+    return i + 1;
+}
+
+void quicksort(std::vector<int> &a, int left, int right)
+{
+    if (left < right) {
+        int q = partition(a, left, right);
+        quicksort(a, left, q - 1);
+        quicksort(a, q + 1, right);
+    }
+}
+	</pre>
+	<p>
+		Функция <code>partition(std::vector&ltint&gt&, int, int)</code> разбивает вектор <code>a</code> на 3 подмассива:
+		<ol>
+			<li>Элементы которого меньше <code>x</code></li>
+			<li>Элементы которого больше <code>x</code></li>
+			<li>Подмассив из одного элемента - <code>x</code></li>
+		</ol>
+		А затем совершаются рекурсивные вызовы функции <code>quicksort</code> для подмассивов 1 и 2.<br>
+		Трудоемкость данного алгоритма составляет O(n log<sub>2</sub>n). В худшем случае трудомкость составляет O(n<sup>2</sup>)
+	</p>
+
+	<h4>Сортировка кучей (Heapsort)</h4>
+	<pre>
+void HeapSort::heapsort(std::vector<int> &a, int size)
+{
+    makeHeap(a, size);
+    for (int i = size - 1; i >= 1; i--) {
+        std::swap(a[0], a[i]);
+        size--;
+        maxHeapify(a, size, 0);
+    }
+}
+
+void HeapSort::makeHeap(std::vector<int> &a, int size)
+{
+    for (int i = size / 2; i >= 0; i--)
+        maxHeapify(a, size, i);
+}
+
+void HeapSort::maxHeapify(std::vector<int> &a, int size, int i)
+{
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    int max = i;
+
+    if (left < size && a[left] > a[i])
+        max = left;
+    if (right < size && a[right] > a[max])
+        max = right;
+
+    if (i != max) {
+        std::swap(a[i], a[max]);
+        maxHeapify(a, size, max);
+    }
+}
+	</pre>
+	<p>
+		Для сортировки кучей необходима реализация такой струкутуры данных, как куча. Куча предстваляет из себя бинарное дерево, такое что для любого его узла (кроме листьев)
+		выполняется следущее свойство: занчения ключей левого и правого сыновей узла не превосходят значение ключа самого узла.
+		Функция <code>maxHeapify(std::vector&ltitn&gt&, int, int)</code> предназначена для поддержания свойств кучи.<br>
+		Функция <code>makeHeap(std::vector&ltint&gt&, int)</code> предназначена для создания кучи.
+	</p>
+	<p>
+		<a href="index.html">Назад</a>
+	</p>
+</body>
+</html>
